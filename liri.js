@@ -26,7 +26,7 @@ switch (operation) {
         doSpotify(params);
         break;
     case "movie-this":
-        doOMDB(params);
+        doIMDB(params);
         break;
     case "do-what-it-says":
         doRandom();
@@ -65,8 +65,8 @@ function doSpotify() {
     console.log("doSpotify is under construction");
 }
 
-//IMDB is working.  Don't touch it. 
-function doOMDB() {
+
+function doIMDB() {
 
     request("http://www.omdbapi.com/?t=" + params + "=&plot=short&apikey=trilogy", function (error, response, body) {
 
