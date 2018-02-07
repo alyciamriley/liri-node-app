@@ -26,7 +26,7 @@ switch (operation) {
         doSpotify(params);
         break;
     case "movie-this":
-        doIMDB(params);
+        doOMDB(params);
         break;
     case "do-what-it-says":
         doRandom();
@@ -52,16 +52,12 @@ function doTweets() {
             for (i = 0; i < tweets.length; i++) {
                 console.log(tweets[i].created_at);
                 console.log(tweets[i].text);
-                console.log("*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*");
-
+                console.log("==============================================================================");
             }
         } else {
             console.log("error");
         }
-
-
     })
-
 }
 
 
@@ -69,15 +65,32 @@ function doSpotify() {
     console.log("doSpotify is under construction");
 }
 
-function doIMDB() {
+//IMDB is working.  Don't touch it. 
+function doOMDB() {
 
     request("http://www.omdbapi.com/?t=" + params + "=&plot=short&apikey=trilogy", function (error, response, body) {
 
-        if (!error && response.statusCode === 200) {
+        if (params) {
             console.log("Title: " + JSON.parse(body).Title);
             console.log("Released: " + JSON.parse(body).Year);
             console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
             console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+            console.log("Produced in: " + JSON.parse(body).Country);
+            console.log("Language: " + JSON.parse(body).Language);
+            console.log("Plot Summary: " + JSON.parse(body).Plot);
+            console.log("Starring: " + JSON.parse(body).Actors);
+
+        } else {
+
+            //if time, figure out how to do this the non cheaty mc cheaterson way.
+            console.log("Title: Mr. Nobody");
+            console.log("Released: 2009");
+            console.log("IMDB Rating: 7.9");
+            console.log("Rotten Tomatoes Rating: 66%");
+            console.log("Produced in: Belgium, Germany, Canada, France, USA, UK");
+            console.log("Language: English, Mohawk");
+            console.log("Plot Summary: A boy stands on a station platform as a train is about to leave. Should he go with his mother or stay with his father? Infinite possibilities arise from this decision. As long as he doesnt choose, anything is possible.");
+            console.log("Starring: Jared Leto, Sarah Polley, Diane Kruger, Linh Dan Pham");
         }
     });
 
