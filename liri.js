@@ -72,7 +72,7 @@ function doSpotify(params) {
     request(queryUrl, function (err, response, body) { //SpotifyAPI-call
         if (err) {
             console.log(err);
-            
+
         }
         console.log(params);
         console.log(body);
