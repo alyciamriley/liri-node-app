@@ -3,7 +3,7 @@ require("./keys.js");
 var fs = require('fs');
 var request = require("request");
 var inquirer = require("inquirer");
-var spotify = new Spotify(keys.spotify);
+var spotify = require("node-spotify-api")
 var twitter = require("twitter");
 var omdb = require("omdb");
 
@@ -62,21 +62,9 @@ function doTweets() {
 }
 
 
-function doSpotify(params) {
+function doSpotify() {
 
-    if (!params) {
-        params = "lose" + "yourself"; //assigned default in case params not entered after task
-    }
-    var queryUrl = 'https://api.spotify.com/v1/search?q=' + params + '&limit=5&type=track';
-
-    request(queryUrl, function (err, response, body) { //SpotifyAPI-call
-        if (err) {
-            console.log(err);
-
-        }
-        console.log(params);
-        console.log(body);
-    });
+console.log("Spotify is under construction");
 }
 
 
