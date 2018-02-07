@@ -2,10 +2,11 @@ require("dotenv").config();
 require("./keys.js");
 var fs = require('fs');
 var request = require("request");
-var spotify = require("node-spotify-api");
+var inquirer = require("inquirer");
+var spotify = new Spotify(keys.spotify);
 var twitter = require("twitter");
 var omdb = require("omdb");
-var inquirer = require("inquirer");
+
 
 
 
@@ -61,8 +62,21 @@ function doTweets() {
 }
 
 
-function doSpotify() {
-    console.log("doSpotify is under construction");
+function doSpotify(params) {
+
+    if (!params) {
+        params = "lose" + "yourself"; //assigned default in case params not entered after task
+    }
+    var queryUrl = 'https://api.spotify.com/v1/search?q=' + params + '&limit=5&type=track';
+
+    request(queryUrl, function (err, response, body) { //SpotifyAPI-call
+        if (err) {
+            console.log(err);
+            
+        }
+        console.log(params);
+        console.log(body);
+    });
 }
 
 
