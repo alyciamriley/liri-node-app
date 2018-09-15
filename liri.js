@@ -1,6 +1,6 @@
 require("dotenv").config();
-require("./keys.js");
-var fs = require('fs');
+var keys = require("./keys.js");
+var fs = require("fs");
 var request = require("request");
 var inquirer = require("inquirer");
 var spotify = require("node-spotify-api")
@@ -12,44 +12,25 @@ var omdb = require("omdb");
 
 //set up flow control
 
-var operation = process.argv[2];
-var params = "";
-for (i = 3; i < process.argv.length; i++) {
-    params = params + " " + process.argv[i];
-}
+// var operation = process.argv[2];
+// var params = "";
+// for (i = 3; i < process.argv.length; i++) {
+//     params = params + " " + process.argv[i];
+// }
 
 
-switch (operation) {
-    case "my-tweets":
-        doTweets();
-        break;
-    case "spotify-this-song":
-        doSpotify(params);
-        break;
-    case "movie-this":
-        doIMDB(params);
-        break;
-    case "do-what-it-says":
-        doRandom();
-        break;
-
-}
 //tweets is working don't touch it
 
 function doTweets() {
-    var client = new twitter({
-        consumer_key: process.env.TWITTER_CONSUMER_KEY,
-        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-        access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-        access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-    })
+    var client = new twitter(keys.twitter);
 
-    var trumpTweets = {
-        screen_name: "realdondahlen"
+    var params = {
+        screen_name: "code_retro"
     };
-    client.get("statuses/user_timeline", trumpTweets, function (error, tweets, response) {
+    client.get("statuses/user_timeline", params, function (error, tweets, response) {
 
         if (!error) {
+         
             for (i = 0; i < tweets.length; i++) {
                 console.log(tweets[i].created_at);
                 console.log(tweets[i].text);
@@ -101,3 +82,25 @@ function doIMDB() {
 function doRandom() {
     console.log("doRandom is under construction");
 }
+
+
+//======User Interaction=====//
+
+function startLiri(operation) {
+    inquirer.prompt({
+        name: "listOptions",
+        type: "rawlist",
+        message: "What would you like to do today?",
+        choices: ["View Tweets", "Look Up Song", "Look Up Movie"]
+    }).then(function(answer) {
+        if(answer.listOptions === "View Tweets") {
+            doTweets();
+        } if (answer.listOptions === "Look Up Song") {
+            doSpotify();
+        } if (answer.listOptions === "Look Up Movies") {
+            doIMDB();
+        }
+    })
+}
+
+startLiri();
